@@ -26,6 +26,8 @@ If you are in a windows environment, you may need to specify the absolute path i
 docker run -it --rm -v absolute/path/to/app:/app my-fortran-env bash
 ```
 
+Also, you will want to create a "data" folder within your "app" folder (as the python files are currently written) that has the netCDF files you want to convert.
+
 ## Executing Python Scripts
 
 ### 3. Generate Intermediate Data Format
