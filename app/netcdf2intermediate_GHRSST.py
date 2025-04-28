@@ -17,13 +17,13 @@ def generate_intermediate_files(input_file_name, output_file_name, output_dir):
 
     sst = dataset.variables['analysed_sst'][:].data[0]
     mask = dataset.variables['mask'][:].data[0].astype(np.float32)
-    # 0 is land, 1 is water in netcdf file
-    # 0=water, 1=land in intermediate file
-    # so we need to flip it
-    #land_mask = 1 - water_mask
 
     winter_geo = pyw.Geo0(lat[0], lon[0], dlat, dlon)
     winter_t2m = pyw.V2d('SST', sst)
+    #the mask is a bit mask where 0 is water, 1 is land
+    #2 is optional lake, 3 is sea ice
+    #4 is optional river and 5-7 are spare
+    #for our purposes, we want everything but ocean to be 1
     winter_land_mask = pyw.V2d('LANDSEA', mask)
 
     total_fields = [
