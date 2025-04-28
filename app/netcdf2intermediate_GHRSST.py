@@ -54,7 +54,7 @@ files = glob.glob(f'{root_dir}/*.nc')
 for file_dir_name in files:
     #this is specific to 2016 GHRSST file names
     month_day = file_dir_name.split('120000', 1)[0].split('16')[1]
-    ref_month_day = month_day[0:1] + '-' + month_day[2:3]
+    ref_month_day = month_day[0:2] + '-' + month_day[2:4]
 
     output_name = f'2017-{ref_month_day}_12'
 

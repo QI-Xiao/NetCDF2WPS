@@ -15,8 +15,15 @@ docker build -t my-fortran-env .
 
 ### 2. Run the Docker Container
 In the project root directory, run the Docker container. This command will start the container and mount the `app` directory, allowing you to execute Python code within the Docker environment:
+
 ```
 docker run -it --rm -v ./app:/app my-fortran-env bash
+```
+
+If you are in a windows environment, you may need to specify the absolute path instead of an absolute path, so the code above would be modified to:
+
+```
+docker run -it --rm -v absolute/path/to/app:/app my-fortran-env bash
 ```
 
 ## Executing Python Scripts
