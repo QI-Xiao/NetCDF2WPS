@@ -24,9 +24,8 @@ def generate_intermediate_files(input_file_name, output_file_name, output_dir):
     #the mask is a bit mask where 0 is water, 1 is land
     #2 is optional lake, 3 is sea ice
     #4 is optional river and 5-7 are spare
-    #from looking at the mask, only use 0/1
-    #for our purposes, we want everything but ocean to be 1
-    #uni="fraction", lev="200100"
+    #from looking at the mask, they only use 0/1 in our area
+    #from their default LANDSEA variable: uni="fraction", lev="200100"
     winter_land_mask = pyw.V2d('SST_mask', mask, 'Mask for SST data', 'fraction', '200100')
 
     total_fields = [
@@ -34,7 +33,10 @@ def generate_intermediate_files(input_file_name, output_file_name, output_dir):
         winter_land_mask,
     ]
 
-    pyw.cinter('SST', output_file_name, winter_geo, total_fields, output_dir)
+    #technically you want the prefix to be SST here but because I am on a
+    #windows machine it doesn't like the colon, so it is easier to change the
+    #prefix using a separate code once I transfer the files to the Linus machine
+    pyw.cinter('FILE', output_file_name, winter_geo, total_fields, output_dir)
 
 
 root_dir = './data'
@@ -50,9 +52,11 @@ else:
 files = glob.glob(f'{root_dir}/*.nc')
 
 for file_dir_name in files:
+    #this is specific to 2016 GHRSST file names
     month_day = file_dir_name.split('120000', 1)[0].split('16')[1]
+    ref_month_day = month_day[0:1] + '-' + month_day[2:3]
 
-    output_name = f'2017-{month_day}_12'
+    output_name = f'2017-{ref_month_day}_12'
 
     print('\n', file_dir_name, output_name, output_dir)
 
