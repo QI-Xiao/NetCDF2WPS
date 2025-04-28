@@ -16,6 +16,7 @@ def generate_intermediate_files(input_file_name, output_file_name, output_dir):
     dlon = dataset.geospatial_lon_resolution
 
     sst = dataset.variables['analysed_sst'][:].data[0]
+    #fill value seems to be -32768
     mask = dataset.variables['mask'][:].data[0].astype(np.float32)
 
     winter_geo = pyw.Geo0(lat[0], lon[0], dlat, dlon)
@@ -23,8 +24,10 @@ def generate_intermediate_files(input_file_name, output_file_name, output_dir):
     #the mask is a bit mask where 0 is water, 1 is land
     #2 is optional lake, 3 is sea ice
     #4 is optional river and 5-7 are spare
+    #from looking at the mask, only use 0/1
     #for our purposes, we want everything but ocean to be 1
-    winter_land_mask = pyw.V2d('LANDSEA', mask)
+    #uni="fraction", lev="200100"
+    winter_land_mask = pyw.V2d('SST_mask', mask, 'Mask for SST data', 'fraction', '200100')
 
     total_fields = [
         winter_t2m,
